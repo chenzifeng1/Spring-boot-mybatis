@@ -42,11 +42,11 @@ public class UserController {
     @GetMapping("/getUserByName")
     public List<JSONObject> getUserByName(@RequestBody JSONObject jsonObject){
         logger.info(jsonObject.toString());
-        return userService.getUserByUserName(jsonObject);
+        return userService.getUserByUserNameLike(jsonObject);
     }
 
     @PostMapping("/deleteUser")
-    public JSONObject deleteUser(JSONObject jsonObject){
+    public JSONObject deleteUser(@RequestBody JSONObject jsonObject){
         return userService.deleteUser(jsonObject);
     }
 

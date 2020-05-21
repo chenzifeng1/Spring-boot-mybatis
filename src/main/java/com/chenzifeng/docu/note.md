@@ -13,28 +13,47 @@ idea中打插件的方法 File -> Settings -> Plugins 选下方的Browser Reposi
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <!--namespace:绑定对应的dao层-->
-<mapper namespace="com.chenzifeng.learn.dao.UserDao">
-    <insert id="addUser"></insert>
+<mapper namespace="与之绑定的Dao接口">
+    <!--resultMap：这个是定义sql查询返回的结果. type字段是标识将该结果应该被包装为何种类型 公司一般使用JSONObject或者与特定的bean进行绑定-->
+    <resultMap id="唯一标识接收类的id（自己根据需求定义）" type="com.alibaba.fastjson.JSONObject">
+        <id column="id" property="id"/>
+        <result  column="数据库字段" property="返回结果中与该数据库字段对应的类的字段" javaType="property的类型"/>
+    </resultMap>
 
 
-    <delete id="deleteUser"></delete>
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id">
+        <!--insert Sql-->
+    </insert>
+
+
+    <delete id="deleteUser">
+        <!--delete sql-->
+    </delete>
 
     <select id="getUser" resultType="org.json.JSONObject">
-        SELECT * FROM USER
-        WHERE 1=1
-        <if test="getUser!=null">
-           AND  USERNAME =#{}
-        </if>>
-
+        <!--select sql-->
     </select>
 
-
+    <update id="updateUser">
+        <!--update sql-->
+    </update>
 
 </mapper>
 ```
 需要注意的是mapper标签下的namespace的值应该关联到相应的Dao接口，根据Dao层方法分为（insert，update，delete，select）
-
+四种方法中必有字段是id，对应的是Dao层的方法。另外还有其他一些差别：
+1. insert标签里面独有的是```useGeneratedKeys="true" keyProperty="id"``` 用来标注插入记录主键自增  
+2. select标签里面需要标注返回结果的类型 ```resultType="org.json.JSONObject"```
+3. delete返回结果是int型，根据返回值来判断记录是否删除成功
+4. resultType是sql映射文件中定义返回值类型 
+   resultType:
+   
+   1、基本类型  ：resultType=基本类型
+   
+   2、List类型：   resultType=List中元素的类型
+   
+   3、Map类型     resultType =map
 
 
 ### JavaBean实现Serializable接口
-javabean实现该接口的目的是为了持久化
+javabean实现该接口的目的是为了持久化，javabean需要写一个空构造方法。

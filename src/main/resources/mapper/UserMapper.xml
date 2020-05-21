@@ -20,17 +20,9 @@
     </insert>
 
 
-    <delete id="deleteUser">
-        DELETE FROM my_user WHERE id =#{id}
-    </delete>
-
-    <select id="getUserByName" resultType="com.chenzifeng.learn.bean.UserBean">
+    <select id="getUserByNameLike" resultType="com.chenzifeng.learn.bean.UserBean">
         SELECT * FROM my_user
-        <where>
-            <if test="getUserByName!=null">
-                AND USERNAME =#{username}
-            </if>>
-        </where>
+        where USERNAME LIKE "${usernmae}%"
     </select>
     <!--&#45;&#45; where 1=1 的作用：当如果没有1=1，那么当下列的"if test" 判断都为false时，那会出现 select * from xx where 的非法sql语句-->
     <!--&#45;&#45; 另外 即使有的"if test"不为空，但如果出现了select * from xx where and[or] expression 也是非法sql语句-->
@@ -45,7 +37,12 @@
         </where>
     </select>
 
-    <update id="updateUser"></update>
+    <update id="updateUser">
 
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM my_user WHERE id =#{id}
+    </delete>
 
 </mapper>

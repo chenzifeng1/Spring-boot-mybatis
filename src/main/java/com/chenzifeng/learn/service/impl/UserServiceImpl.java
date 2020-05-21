@@ -25,19 +25,22 @@ public class UserServiceImpl implements UserService {
     UserDao userDao;
 
     @Override
-    public List<JSONObject> getUserByUserName(JSONObject jsonObject) {
+    public List<JSONObject> getUserByUserNameLike(JSONObject jsonObject) {
         String name = jsonObject.getString("username");
         logger.info("search username:" + name);
-        List<JSONObject> userLists = new ArrayList<>();
-        for (UserBean user : userDao.getUserByName(jsonObject)) {
+
+        List<UserBean> userLists = userDao.getUserByNameLike(jsonObject);
+
+        List<JSONObject> results = new ArrayList<>();
+        for (UserBean user : userLists) {
             JSONObject object = new JSONObject();
             object.put("id", user.getId());
             object.put("username", user.getUsername());
             object.put("password", user.getPassword());
             object.put("realName", user.getRealName());
-            userLists.add(object);
+            results.add(object);
         }
-        return userLists;
+        return results;
     }
 
 
@@ -63,6 +66,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public JSONObject deleteUser(JSONObject jsonObject) {
+        int isdelete = userDao.deleteUser(jsonObject);
+        logger.info("the user has delete: "+(isdelete==1));
         return null;
     }
 

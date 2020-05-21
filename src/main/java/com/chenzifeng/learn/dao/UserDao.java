@@ -9,12 +9,6 @@ import java.util.List;
 @Repository
 public interface UserDao {
 
-    /**
-     * 根据某一字段获取数据对象，不一定唯一
-     * @param jsonObject
-     * @return
-     */
-    List<UserBean> getUserByName(JSONObject jsonObject);
 
     /**
      * 添加用户
@@ -24,7 +18,7 @@ public interface UserDao {
     void addUser(JSONObject jsonObject);
 
 
-    JSONObject deleteUser(JSONObject jsonObject);
+    int deleteUser(JSONObject jsonObject);
 
     /**
      * getOne：根据主键id获取数据对象，唯一
@@ -34,6 +28,16 @@ public interface UserDao {
     UserBean getOne(JSONObject jsonObject);
 
     void updateUser(JSONObject oldOne,JSONObject newOne);
+
+//    进阶：返回结果为list以及多请求参数的情况
+
+
+    /**
+     * 根据某一字段获取数据对象，不一定唯一
+     * @param jsonObject
+     * @return
+     */
+    List<UserBean> getUserByNameLike(JSONObject jsonObject);
 
 
 

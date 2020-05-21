@@ -14,7 +14,7 @@ public interface UserService {
      * @param jsonObject
      * @return
      */
-    List<JSONObject> getUserByUserName(JSONObject jsonObject);
+    List<JSONObject> getUserByUserNameLike(JSONObject jsonObject);
 
 
     void addUser(JSONObject jsonObject);
