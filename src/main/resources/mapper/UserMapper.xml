@@ -5,7 +5,7 @@
 <mapper namespace="com.chenzifeng.learn.dao.UserDao">
 
     <!--返回结果 可以按照需要与bean绑定，也可以直接表述JSON对象-->
-    <resultMap id="myUser" type="com.chenzifeng.learn.bean.UserBean">
+    <resultMap id="myUser" type="com.chenzifeng.learn.bean.User">
         <id column="id" property="id"/>
         <result column="USERNAME" property="username" javaType="java.lang.String"/>
         <result column="PASSWORD" property="password" javaType="java.lang.String"/>
@@ -20,10 +20,10 @@
     </insert>
 
 
-    <select id="getUserByNameLike" resultType="com.chenzifeng.learn.bean.UserBean">
-        SELECT * FROM my_user
-        where USERNAME LIKE "${usernmae}%"
-    </select>
+    <!--<select id="" resultType="com.chenzifeng.learn.bean.User">-->
+
+    <!--</select>-->
+
     <!--&#45;&#45; where 1=1 的作用：当如果没有1=1，那么当下列的"if test" 判断都为false时，那会出现 select * from xx where 的非法sql语句-->
     <!--&#45;&#45; 另外 即使有的"if test"不为空，但如果出现了select * from xx where and[or] expression 也是非法sql语句-->
     <!--&#45;&#45; 可以使用"where"标签来修正-->
@@ -35,6 +35,21 @@
                 id = #{id}
             </if>
         </where>
+    </select>
+
+
+    <select id="countUser" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM my_user
+    </select>
+
+    <select id="listUser" resultType="com.chenzifeng.learn.bean.User">
+        SELECT * FROM my_user
+    </select>
+
+
+    <select id="getUserByUsername" resultType="com.chenzifeng.learn.bean.User">
+        SELECT * FROM my_user
+        WHERE USERNAME = #{username}
     </select>
 
     <update id="updateUser">

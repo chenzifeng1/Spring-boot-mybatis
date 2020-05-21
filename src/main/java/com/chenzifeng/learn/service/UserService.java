@@ -25,5 +25,6 @@ public interface UserService {
 
     void updateUser(JSONObject jsonObject);
 
+    int countUser();
 
 }

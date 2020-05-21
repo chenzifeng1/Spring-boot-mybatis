@@ -1,7 +1,7 @@
 package com.chenzifeng.learn.dao;
 
 import com.alibaba.fastjson.JSONObject;
-import com.chenzifeng.learn.bean.UserBean;
+import com.chenzifeng.learn.bean.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,6 +9,11 @@ import java.util.List;
 @Repository
 public interface UserDao {
 
+    /**
+     * 统计用户数量
+     * @return
+     */
+    int countUser();
 
     /**
      * 添加用户
@@ -16,6 +21,8 @@ public interface UserDao {
      * @return
      */
     void addUser(JSONObject jsonObject);
+
+    User getUserByUsername(JSONObject jsonObject);
 
 
     int deleteUser(JSONObject jsonObject);
@@ -25,7 +32,8 @@ public interface UserDao {
      * @param jsonObject
      * @return
      */
-    UserBean getOne(JSONObject jsonObject);
+    User getOne(JSONObject jsonObject);
+
 
     void updateUser(JSONObject oldOne,JSONObject newOne);
 
@@ -37,7 +45,7 @@ public interface UserDao {
      * @param jsonObject
      * @return
      */
-    List<UserBean> getUserByNameLike(JSONObject jsonObject);
+    List<User> listUser(JSONObject jsonObject);
 
 
 

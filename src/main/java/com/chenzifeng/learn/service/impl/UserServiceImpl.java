@@ -2,7 +2,7 @@ package com.chenzifeng.learn.service.impl;
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.chenzifeng.learn.bean.UserBean;
+import com.chenzifeng.learn.bean.User;
 import com.chenzifeng.learn.dao.UserDao;
 import com.chenzifeng.learn.service.UserService;
 
@@ -29,10 +29,10 @@ public class UserServiceImpl implements UserService {
         String name = jsonObject.getString("username");
         logger.info("search username:" + name);
 
-        List<UserBean> userLists = userDao.getUserByNameLike(jsonObject);
+        List<User> userLists = userDao.listUser(jsonObject);
 
         List<JSONObject> results = new ArrayList<>();
-        for (UserBean user : userLists) {
+        for (User user : userLists) {
             JSONObject object = new JSONObject();
             object.put("id", user.getId());
             object.put("username", user.getUsername());
@@ -57,10 +57,10 @@ public class UserServiceImpl implements UserService {
                 jse.printStackTrace();
             }
         }
-        final UserBean userBean = new UserBean();
-        userBean.setPassword(jsonObject.getString("password"));
-        userBean.setUsername(jsonObject.getString("username"));
-        userBean.setRealName(jsonObject.getString("realName"));
+        final User user = new User();
+        user.setPassword(jsonObject.getString("password"));
+        user.setUsername(jsonObject.getString("username"));
+        user.setRealName(jsonObject.getString("realName"));
         userDao.addUser(jsonObject);
     }
 
@@ -73,9 +73,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public JSONObject getOne(JSONObject jsonObject) {
-        UserBean userBean = userDao.getOne(jsonObject);
-        logger.info(userBean.toString());
-        return userToJson(userBean);
+        User user = userDao.getOne(jsonObject);
+        logger.info(user.toString());
+        return userToJson(user);
     }
 
     @Override
@@ -83,13 +83,18 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public int countUser() {
+        return userDao.countUser();
+    }
 
-    public JSONObject userToJson(UserBean userBean){
+
+    public JSONObject userToJson(User user){
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id",userBean.getId());
-        jsonObject.put("username",userBean.getUsername());
-        jsonObject.put("password",userBean.getPassword());
-        jsonObject.put("realName",userBean.getRealName());
+        jsonObject.put("id", user.getId());
+        jsonObject.put("username", user.getUsername());
+        jsonObject.put("password", user.getPassword());
+        jsonObject.put("realName", user.getRealName());
         return jsonObject;
     }
 

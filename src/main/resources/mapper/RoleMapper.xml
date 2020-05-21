@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--namespace:绑定对应的dao层-->
+<mapper namespace="com.chenzifeng.learn.dao.RoleDao">
+    <resultMap id="Role" type="com.alibaba.fastjson.JSONObject">
+        <result column="" property=""/>
+    </resultMap>
+
+
+</mapper>

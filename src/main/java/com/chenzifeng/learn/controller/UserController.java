@@ -5,8 +5,7 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.chenzifeng.learn.service.UserService;
 import com.chenzifeng.learn.service.impl.UserServiceImpl;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +24,11 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("/countUser")
+    public int countUser(){
+        return userService.countUser();
+    }
 
     @GetMapping("/getUser")
     public JSONObject getUser(@RequestBody JSONObject jsonObject) {
