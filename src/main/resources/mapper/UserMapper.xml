@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--namespace:绑定对应的dao层-->
+<mapper namespace="com.chenzifeng.learn.dao.UserDao">
+
+    <!--返回结果 可以按照需要与bean绑定，也可以直接表述JSON对象-->
+    <resultMap id="myUser" type="com.chenzifeng.learn.bean.UserBean">
+        <id column="id" property="id"/>
+        <result column="USERNAME" property="username" javaType="java.lang.String"/>
+        <result column="PASSWORD" property="password" javaType="java.lang.String"/>
+        <result column="REAL_NAME" property="realName" javaType="java.lang.String"/>
+    </resultMap>
+
+
+    <!--useGeneratedKeys="true" keyProperty="id" 允许JDBC来做ID自增,表明主键是ID parameterMap:参数的类型 -->
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO my_user(USERNAME,PASSWORD,REAL_NAME)
+        VALUES (#{username},#{password},#{realName})
+    </insert>
+
+
+    <delete id="deleteUser">
+        DELETE FROM my_user WHERE id =#{id}
+    </delete>
+
+    <select id="getUserByName" resultType="com.chenzifeng.learn.bean.UserBean">
+        SELECT * FROM my_user
+        <where>
+            <if test="getUserByName!=null">
+                AND USERNAME =#{username}
+            </if>>
+        </where>
+    </select>
+    <!--&#45;&#45; where 1=1 的作用：当如果没有1=1，那么当下列的"if test" 判断都为false时，那会出现 select * from xx where 的非法sql语句-->
+    <!--&#45;&#45; 另外 即使有的"if test"不为空，但如果出现了select * from xx where and[or] expression 也是非法sql语句-->
+    <!--&#45;&#45; 可以使用"where"标签来修正-->
+    <!--&#45;&#45;此处应该涉及到了执行顺序的问题，getOne是dao层的方法，一开始为null，当执行完sql之后查询结果会被返回，因此不能再sql里面判断该方法是否为null-->
+    <select id="getOne" resultMap="myUser">
+        SELECT * FROM my_user
+        <where>
+            <if test="true">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateUser"></update>
+
+
+</mapper>
