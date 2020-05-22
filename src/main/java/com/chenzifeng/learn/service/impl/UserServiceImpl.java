@@ -88,6 +88,20 @@ public class UserServiceImpl implements UserService {
         return userDao.countUser();
     }
 
+    @Override
+    public User getUserByName(JSONObject jsonObject) {
+        String username = jsonObject.getString("username");
+        logger.info(username);
+        final User user =userDao.getUserByName(jsonObject);
+        logger.info(user.toString());
+        return user;
+    }
+
+    @Override
+    public int isExist(JSONObject jsonObject) {
+        return userDao.isExist(jsonObject);
+    }
+
 
     public JSONObject userToJson(User user){
         JSONObject jsonObject = new JSONObject();

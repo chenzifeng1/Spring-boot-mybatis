@@ -15,6 +15,9 @@ public interface UserDao {
      */
     int countUser();
 
+    int isExist(JSONObject jsonObject);
+
+
     /**
      * 添加用户
      * @param jsonObject
@@ -22,7 +25,12 @@ public interface UserDao {
      */
     void addUser(JSONObject jsonObject);
 
-    User getUserByUsername(JSONObject jsonObject);
+    /**
+     * 做登录验证时需要，但是不必返回整个User信息，只要判断数据库中是否有该User即可
+     * @param jsonObject
+     * @return
+     */
+    User getUserByName(JSONObject jsonObject);
 
 
     int deleteUser(JSONObject jsonObject);
@@ -38,6 +46,8 @@ public interface UserDao {
     void updateUser(JSONObject oldOne,JSONObject newOne);
 
 //    进阶：返回结果为list以及多请求参数的情况
+
+
 
 
     /**

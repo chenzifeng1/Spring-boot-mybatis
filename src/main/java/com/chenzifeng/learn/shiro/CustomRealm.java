@@ -1,9 +1,13 @@
 package com.chenzifeng.learn.shiro;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.chenzifeng.learn.bean.Permissions;
 import com.chenzifeng.learn.bean.Role;
 import com.chenzifeng.learn.bean.User;
+import com.chenzifeng.learn.dao.UserDao;
 import com.chenzifeng.learn.service.LoginService;
+import com.chenzifeng.learn.service.UserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -22,6 +26,9 @@ public class CustomRealm extends AuthorizingRealm {
     @Autowired
     private LoginService loginService;
 
+    @Autowired
+    private UserService userService;
+
     /**
      * 授权
      * @param principalCollection
@@ -31,8 +38,10 @@ public class CustomRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         //获取登录用户名
         String username = (String) principalCollection.getPrimaryPrincipal();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("username",username);
         //根据用户名去数据库查询用户信息
-        User user = loginService.getUserByName(username);
+        final User user = userService.getUserByName(jsonObject);
         //添加角色和权限
         SimpleAuthorizationInfo simpleAuthorizationInfo= new SimpleAuthorizationInfo();
         for(Role role :user.getRoles()){
@@ -56,13 +65,15 @@ public class CustomRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         // 1. 获取用户输入的账号
         String username = (String) token.getPrincipal();
-        // 2. 通过username从数据库中获取到user的实体
-        User user = loginService.getUserByName(username);
 
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("username",username);
+
+        // 2. 通过username从数据库中获取到user的实体
+        User user = userService.getUserByName(jsonObject);;
         if(null == user){
             return null;
         }
-
         // 3. 通过SimpleAuthenticationInfo做身份处理
         // 该构造方法的第一个参数是 从数据库获取的User对象
         //           第二个参数是 数据库获取的密码

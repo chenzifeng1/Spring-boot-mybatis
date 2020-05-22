@@ -22,14 +22,12 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterFactoryBean webFilter() {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-
         // Shiro配置类的过滤器中启用安全管理器
         shiroFilterFactoryBean.setSecurityManager(securityManager());
 
         // 配置拦截链 使用LinkedHashMap，因为LinkedHashMap是有序的，Shiro会根据连接顺序进行拦截
         // Map<K,V> K是指拦截的url，V的值是该url是否被拦截
         Map<String, String> filterChainMap = new LinkedHashMap<>(16);
-
 
         //authc:所有url都必须经过认证才能访问：anon：所有url可以进行匿名访问，，先配置anon在配置authc
         filterChainMap.put("/login","anon");
@@ -56,7 +54,6 @@ public class ShiroConfig {
 
     @Bean
     public CustomRealm customRealm() {
-
         return new CustomRealm();
 
     }

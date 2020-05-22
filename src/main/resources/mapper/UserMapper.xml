@@ -11,8 +11,6 @@
         <result column="PASSWORD" property="password" javaType="java.lang.String"/>
         <result column="REAL_NAME" property="realName" javaType="java.lang.String"/>
     </resultMap>
-
-
     <!--useGeneratedKeys="true" keyProperty="id" 允许JDBC来做ID自增,表明主键是ID parameterMap:参数的类型 -->
     <insert id="addUser" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO my_user(USERNAME,PASSWORD,REAL_NAME)
@@ -42,14 +40,18 @@
         SELECT COUNT(*) FROM my_user
     </select>
 
-    <select id="listUser" resultType="com.chenzifeng.learn.bean.User">
+    <select id="listUser" resultMap="myUser">
         SELECT * FROM my_user
     </select>
 
 
-    <select id="getUserByUsername" resultType="com.chenzifeng.learn.bean.User">
+    <select id="getUserByName" resultMap="myUser">
         SELECT * FROM my_user
-        WHERE USERNAME = #{username}
+        where USERNAME = #{username}
+    </select>
+    <select id="isExist" resultType="java.lang.Integer">
+        SELECT count(*) FROM my_user
+        where USERNAME = #{username}
     </select>
 
     <update id="updateUser">
