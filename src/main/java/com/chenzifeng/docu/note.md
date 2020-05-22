@@ -54,6 +54,14 @@ idea中打插件的方法 File -> Settings -> Plugins 选下方的Browser Reposi
    
    3、Map类型     resultType =map
 
+注： 
+    
+    <resultMap> 
+            <result column = "@解释1" property ="@解释2" />
+    </resultMap>
+
+解释1： column是数据库查询返回结果的字段名，但是有时候连表查询时可能会为查询字段起个别名，故此时column为别名的名称。
+解释2： property是实体类定义对象的名称。当我们用JSONObject时，会被自动装配为key的名称，其值为查询的value。
 
 ### JavaBean实现Serializable接口
 javabean实现该接口的目的是为了持久化，javabean需要写一个空构造方法。

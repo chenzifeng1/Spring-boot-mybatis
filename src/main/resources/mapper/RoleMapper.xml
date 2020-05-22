@@ -3,9 +3,32 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <!--namespace:绑定对应的dao层-->
 <mapper namespace="com.chenzifeng.learn.dao.RoleDao">
-    <resultMap id="Role" type="com.alibaba.fastjson.JSONObject">
-        <result column="" property=""/>
+    <select id="getAllRoles" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT * from role
+    </select>
+
+    <resultMap id="Role" type="com.chenzifeng.learn.utils.model.One2Many">
+        <id column="id" property="roleid"/>
+        <result column="ROLE_NAME" property="roleName"/>
+        <collection property="userList" ofType="com.alibaba.fastjson.JSONObject">
+            <id column="userid" property="userId"/>
+            <result column="username" property="username"/>
+        </collection>
+        <collection property="permissionList" ofType="com.alibaba.fastjson.JSONObject">
+            <id column="permissionId" property="permissionId"/>
+            <result column="permissionName" property="permissionName"/>
+        </collection>
     </resultMap>
+
+    <insert id="insertRole" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO role(ROLE_NAME)
+        VALUE (#{roleName})
+    </insert>
+
+    <select id="listRole" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT ROLE_NAME FROM role
+    </select>
+
 
 
 </mapper>

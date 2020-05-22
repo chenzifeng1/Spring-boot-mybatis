@@ -6,6 +6,7 @@ public class Role {
 
     private String id;
     private String roleName;
+
     /**
      * 角色对应的权限集合
      */

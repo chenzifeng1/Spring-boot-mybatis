@@ -15,6 +15,16 @@ public class User implements Serializable {
     private String realName;
 
     /**
+     * 用户状态信息：
+     * 1  ：正常
+     * -1 ：冻结
+     * 0  ：创建未认证（比如没有激活，或者为输入验证码）
+     */
+    private byte status;
+
+    private String salt; //加密所需的密码盐
+
+    /**
      * 一个用户可能具有多个角色：每个角色有不同的权限
      */
     private Set<Role> roles;

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--namespace:绑定对应的dao层-->
+<mapper  namespace="com.chenzifeng.learn.dao.PermissionDao">
+    <resultMap id="permissionMap" type="com.chenzifeng.learn.utils.model.One2Many">
+        <id column="userId" property="userId"/>
+        <result column="username" property="username"/>
+
+        <collection property="roles" ofType="String">
+            <id column="roleName" property="roleName"/>
+        </collection>
+        <collection property="menus" ofType="String">
+            <id column="menuCode" property="menuCode"/>
+        </collection>
+        <collection property="permissions" ofType="String">
+            <id column="permissionCode" property="permissionCode"/>
+        </collection>
+    </resultMap>
+
+    <insert id="insertPermission" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO permission(menu_code,menu_name,permission_code,permission_name,required_permission,status)
+        VALUES (#{menuCode},#{menuName},#{permissionCode},#{permissionName},#{requiredPermission},1)
+    </insert>
+
+
+</mapper>

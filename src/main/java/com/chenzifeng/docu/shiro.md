@@ -37,7 +37,7 @@ shiro是Apache下的一个开源项目，属于轻量级安全框架，相对spr
 之前使用的是 shiro-spring-boot-web-starter,但是出现了一个bean无法加载的错误，暂时没找到解决的方法。
 所以换了依赖包，以后有时间会尝试解决一下那个坑。
 项目树如下：  
-![shiro项目树](../../../../../../img/shiro项目树.PNG)  
+![shiro项目树](../../../../../../img/shiro项目树.PNG) 
 介绍流程采取模块分布：我们首先要写一个shiro的配置文件shiroConfig.java。
 我们在里面要配置webFilter来拦截访问我们服务器的所有请求，当然可以设置url的访问权限
 ```
@@ -69,8 +69,9 @@ shiro是Apache下的一个开源项目，属于轻量级安全框架，相对spr
       
     1. anon：允许用户对url进行匿名访问，即不需要验证身份即可访问
     2. authc：需要用户身份验证通过后才可以访问   
+    3. user: 配置记住我或者是认证通过后可以访问
     
-    另外，之所以是拦截链，拦截优先级与配置时的前后顺序有关。这一点不确定，等查完相关资料之后在进行更新。  
+    另外，之所以是拦截链，拦截判定是根据拦截链的顺序进行的。 
 3. 设置跳转的url，当用户匿名访问服务器其他url时进行跳转，一般设为登录所要的url。
 4. 可以根据需求添加其他功能：比如说允许将用户的信息写入session中，或者是设置缓存、方便获得用户的基本信息。  
 
@@ -166,9 +167,20 @@ public class CustomRealm extends AuthorizingRealm {
     如果有，则将用户信息封装到授权信息类simpleAuthenticationInfo里面，然后返回该类。
     
 
-
-
 **doGetAuthorizationInfo()** 进行授权的方法，会在该方法内根据用户角色和角色对应的permission来对用户配置。
+
+
+
+## shiro用户授权
+
+由于一个User可能包含多个角色Role，而一个角色可能包含多个权限Permission，故User与Role之间是一对多，Role与Permission之间也是一对多的关系。
+但是由于MySQL不能一个字段存一个集合的数据，故只能将其分表存储，User与Role之间用一张关系表来记录。同理，Role与Permission之间用一个关系表来记录。
+![shiro数据库设计](../../../../../../img/shiro数据库设计.PNG) 
+
+
+
+
+
 
 
 
