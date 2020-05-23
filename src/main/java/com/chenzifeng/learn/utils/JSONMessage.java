@@ -22,6 +22,18 @@ public class JSONMessage {
         return jsonObject;
     }
 
+    /**
+     * 重载该函数，传入参数ErrorEnum，返回报错的JSON对象
+     * @param e
+     * @return
+     */
+    public JSONObject JSONResult(ErrorEnum e){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",e.getErrorCode());
+        jsonObject.put("msg",e.getErrorMsg());
+        return jsonObject;
+    }
+
 
 
     public JSONMessage(String code, String msg) {
