@@ -9,7 +9,9 @@ public enum ErrorEnum {
     E_405("405", "请求方式有误,请检查 GET/POST"),
     E_500("500","服务器处理逻辑错误"),
     E_501("501", "请求路径不存在"),
-    E_502("502", "权限不足"),;
+    E_502("502", "权限不足"),
+    E_60001("60001","重复插入");
+
 
     private String errorCode;
     private String errorMsg;

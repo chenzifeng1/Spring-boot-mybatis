@@ -8,7 +8,9 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @program: com.chenzifeng.learn.exception
@@ -17,6 +19,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * @create: 2020-05-23 14:02
  **/
 
+
+@ControllerAdvice
+@ResponseBody
 public class GlobalExceptionHandler {
     //为什么此处的logger要设置为对象级别的 ！！！！ 猜测：应该是因为需要在不同类中抛出异常，日志打印的应该是抛出异常的类，而不是该异常类
     private  Logger logger = LoggerFactory.getLogger(this.getClass().getName());
