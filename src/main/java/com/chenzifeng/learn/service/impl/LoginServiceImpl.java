@@ -5,12 +5,14 @@ import com.chenzifeng.learn.bean.User;
 import com.chenzifeng.learn.dao.UserDao;
 import com.chenzifeng.learn.service.LoginService;
 import com.chenzifeng.learn.utils.JSONMessage;
+import com.chenzifeng.learn.utils.ManageCache;
 import org.apache.ibatis.jdbc.Null;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +56,10 @@ public class LoginServiceImpl implements LoginService {
         logger.info(token.toString());
         //当前登录用户的信息
         Subject currentUser = SecurityUtils.getSubject();
+        //拿到Session
+        Session session = SecurityUtils.getSubject().getSession();
+        logger.info("LoginServiceImpl========="+session.getId());
+
 
         //去数据库查询是否有该用户：仅限用户名存在即可
         int userCount = userDao.isExist(jsonObject);
@@ -64,6 +70,7 @@ public class LoginServiceImpl implements LoginService {
                 currentUser.login(token);
                 //如果不抛出认证异常，则为登录成果
                 //实际的判断逻辑在SecurityManager中实行
+                ManageCache.addSession(session.getId().toString());
                 return new JSONMessage("1","成功").JSONResult();
             }catch (AuthenticationException ae){
                 // 认证失败

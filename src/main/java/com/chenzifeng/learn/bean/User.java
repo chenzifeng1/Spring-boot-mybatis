@@ -29,6 +29,8 @@ public class User implements Serializable {
      */
     private Set<Role> roles;
 
+    private Set<Permissions> permissions;
+
 
     public int getId() {
         return id;
@@ -71,6 +73,13 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
+    public Set<Permissions> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<Permissions> permissions) {
+        this.permissions = permissions;
+    }
 
     @Override
     public String toString() {

@@ -1,6 +1,7 @@
 package com.chenzifeng.learn.dao;
 
 import com.alibaba.fastjson.JSONObject;
+import com.chenzifeng.learn.bean.Role;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -26,13 +27,36 @@ public interface RoleDao {
      */
     int insertRole(JSONObject jsonObject);
 
-//    /**
-//     * 批量插入角色的权限
-//     *
-//     * @param roleId      角色ID
-//     * @param permissions 权限
-//     */
-//    int insertRolePermission(@Param("roleId") String roleId, @Param("permissions") List<Integer> permissions);
+    /**
+     * 根据角色名获取角色信息
+     * @param jsonObject
+     * @return
+     */
+    Role getRoleByName(JSONObject jsonObject);
+
+    /**
+     * 插入用户的角色信息
+     * @param jsonObject
+     * @return
+     */
+    int insertRoleByUser(JSONObject jsonObject);
+
+
+    /**
+     * 角色是否存在
+     * @param jsonObject
+     * @return
+     */
+    int queryExistRolename(JSONObject jsonObject);
+
+    /**
+     * 批量插入角色的权限
+     *
+     * @param roleId      角色ID
+     * @param permissions 权限
+     */
+    int insertRolePermission(@Param("roleId") String roleId, @Param("permissions") List<Integer> permissions);
+
 //
 //    /**
 //     * 将角色曾经拥有而修改为不再拥有的权限 status改为'2'
@@ -67,12 +91,7 @@ public interface RoleDao {
 //     */
 //    int getUserIds(JSONObject jsonObject);
 //
-//    /**
-//     * 角色是否存在
-//     * @param jsonObject
-//     * @return
-//     */
-//    int queryExistRolename(JSONObject jsonObject);
+
 //
 //    /**
 //     * 修改角色
@@ -94,12 +113,12 @@ public interface RoleDao {
 ////     */
 ////    int countRoles(JSONObject jsonObject);
 //
-//    /**
-//     * 根据用户查询所有的角色
-//     * @param requestJson
-//     * @return
-//     */
-//    List<JSONObject> getIdsByUser(JSONObject requestJson);
+    /**
+     * 根据用户查询所有的角色
+     * @param requestJson
+     * @return
+     */
+    List<JSONObject> getIdsByUser(JSONObject requestJson);
 //
 //    /**
 //     * 导出查询

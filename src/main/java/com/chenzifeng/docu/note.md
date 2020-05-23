@@ -32,6 +32,9 @@ idea中打插件的方法 File -> Settings -> Plugins 选下方的Browser Reposi
 
     <select id="getUser" resultType="org.json.JSONObject">
         <!--select sql-->
+        <foreach collection="list/array/paramName" item="自定义循环内的元素名" index="索引" separator=",">
+        
+        </foreach>
     </select>
 
     <update id="updateUser">
@@ -62,6 +65,12 @@ idea中打插件的方法 File -> Settings -> Plugins 选下方的Browser Reposi
 
 解释1： column是数据库查询返回结果的字段名，但是有时候连表查询时可能会为查询字段起个别名，故此时column为别名的名称。
 解释2： property是实体类定义对象的名称。当我们用JSONObject时，会被自动装配为key的名称，其值为查询的value。
+
+    <foreach collection="list/array/paramName" item="自定义循环内的元素名" index="索引" separator=",">
+    </foreach>
+解释1：在insert实现批量插入 可以使用foreach标签来实现。collection对应Dao层方法的集合类参数，有一下两种情况：  
+    1. 集合类参数是唯一参数：那么Collection的value就是list或是array,list对list，数组对array
+    2. 集合类参数不是唯一参数，但是集合类参数被注解@Param("paramName")标注，则collection的value就是注解内的"paramName"
 
 ### JavaBean实现Serializable接口
 javabean实现该接口的目的是为了持久化，javabean需要写一个空构造方法。

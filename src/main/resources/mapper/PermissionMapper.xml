@@ -23,5 +23,26 @@
         VALUES (#{menuCode},#{menuName},#{permissionCode},#{permissionName},#{requiredPermission},1)
     </insert>
 
+    <select id="queryIsExistPermissonCode" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM permission
+        WHERE permission_code = #{permissionCode}
+    </select>
+
+    <resultMap id="permission" type="com.chenzifeng.learn.bean.Permissions">
+        <id column="id" property="id"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_code" property="menuCode"/>
+        <result column="permission_name" property="permissionName"/>
+        <result column="permission_code" property="permissionCode"/>
+        <result column="required_permission" property="requiredPermission"/>
+    </resultMap>
+
+    <select id="getPermissionByCode" resultMap="permission">
+        SELECT * FROM permission
+        WHERE permission_code = #{permissionCode}
+    </select>
+
+
 
 </mapper>

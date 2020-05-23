@@ -7,7 +7,7 @@
         SELECT * from role
     </select>
 
-    <resultMap id="Role" type="com.chenzifeng.learn.utils.model.One2Many">
+    <resultMap id="RoleMap" type="com.chenzifeng.learn.utils.model.One2Many">
         <id column="id" property="roleid"/>
         <result column="ROLE_NAME" property="roleName"/>
         <collection property="userList" ofType="com.alibaba.fastjson.JSONObject">
@@ -24,11 +24,44 @@
         INSERT INTO role(ROLE_NAME)
         VALUE (#{roleName})
     </insert>
+    <!--向  用户—角色 表 插入一条数据，代表某个用户拥有某个角色-->
+    <insert id="insertRoleByUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_role(user_id,role_id)
+        VALUES (#{userId},#{roleId})
+    </insert>
+
+    <!--不设置自增，依靠数据库自己的自增机制-->
+    <insert id="insertRolePermission">
+        INSERT INTO role_permission(role_id,permission_id)
+        VALUES
+        <foreach collection="permissions" item="item" index="index" separator=",">
+             (${roleId},${item})
+        </foreach>
+    </insert>
 
     <select id="listRole" resultType="com.alibaba.fastjson.JSONObject">
         SELECT ROLE_NAME FROM role
     </select>
 
+    <select id="getIdsByUser" resultType="com.alibaba.fastjson.JSONObject">
+
+    </select>
+    <select id="queryExistRolename" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM role
+        WHERE ROLE_NAME = #{roleName}
+    </select>
+
+    <resultMap id="Role" type="com.chenzifeng.learn.bean.Role">
+        <id column="id" property="id"/>
+        <result column="role_name" property="roleName"/>
+    </resultMap>
+
+    <!--根据RoleName返回Role对象-->
+    <select id="getRoleByName" resultMap="Role">
+        SELECT * FROM role
+        WHERE ROLE_NAME = #{roleName}
+    </select>
 
 
 </mapper>

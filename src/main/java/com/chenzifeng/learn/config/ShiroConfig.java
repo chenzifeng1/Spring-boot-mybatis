@@ -2,8 +2,14 @@ package com.chenzifeng.learn.config;
 
 import com.chenzifeng.learn.shiro.CustomRealm;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.mgt.SessionsSecurityManager;
+import org.apache.shiro.session.mgt.DefaultSessionManager;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,8 +37,8 @@ public class ShiroConfig {
 
         //authc:所有url都必须经过认证才能访问：anon：所有url可以进行匿名访问，，先配置anon在配置authc
         filterChainMap.put("/login","anon");
-        filterChainMap.put("/**","anon");
-//        filterChainMap.put("/**","authc");
+//        filterChainMap.put("/**","anon");
+        filterChainMap.put("/**","authc");
 
         //设置拦截请求后跳转的URL
         shiroFilterFactoryBean.setLoginUrl("/login");
@@ -50,15 +56,39 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //将自定义的Realm交给SecurityManager管理
         securityManager.setRealm(customRealm());
+        //设置session管理容器
+        securityManager.setSessionManager(sessionsSecurityManager());
         return securityManager;
     }
 
     @Bean
     public CustomRealm customRealm() {
         return new CustomRealm();
-
     }
 
+    /**
+     * session管理容器
+     * @return
+     */
+    @Bean
+    public DefaultWebSessionManager sessionsSecurityManager(){
+        DefaultWebSessionManager defaultSessionManager = new DefaultWebSessionManager();
+        return defaultSessionManager;
+    }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator(){
+        DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
+        return defaultAdvisorAutoProxyCreator;
+    }
+
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(){
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager());
+        return authorizationAttributeSourceAdvisor;
+    }
 
 }

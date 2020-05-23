@@ -47,9 +47,6 @@ public interface UserDao {
 
 //    进阶：返回结果为list以及多请求参数的情况
 
-
-
-
     /**
      * 根据某一字段获取数据对象，不一定唯一
      * @param jsonObject
@@ -57,6 +54,6 @@ public interface UserDao {
      */
     List<User> listUser(JSONObject jsonObject);
 
-
+    List<String> getUserPermissions(JSONObject jsonObject);
 
 }

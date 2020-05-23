@@ -23,4 +23,18 @@ public class RoleController {
     public List<JSONObject> listRole(JSONObject jsonObject){
         return roleService.listRole(jsonObject);
     }
+
+    @PostMapping("/insertUserRole")
+    public void insertUserRole(@RequestBody JSONObject jsonObject){
+        roleService.insertRoleByUser(jsonObject);
+    }
+
+    /**
+     * @param jsonObject 传入参数中包括一个roleName,permission
+     * @return
+     */
+    @PostMapping("/insertRolePermissions")
+    public int insertRolePermissions(@RequestBody JSONObject jsonObject){
+        return roleService.insertRolePermissions(jsonObject);
+    }
 }

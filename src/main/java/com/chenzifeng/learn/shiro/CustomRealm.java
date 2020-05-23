@@ -38,20 +38,30 @@ public class CustomRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         //获取登录用户名
         String username = (String) principalCollection.getPrimaryPrincipal();
+        //我们在登录的时候把用户信息存session，session里面包含username，role，或者不需要role直接存permission
+        // session里面不存密码，这样我们在这里从session里面直接拿这些信息即可
+
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("username",username);
         //根据用户名去数据库查询用户信息
-        final User user = userService.getUserByName(jsonObject);
+        JSONObject permissions1  = userService.getUserPermissions(jsonObject);
+
+
         //添加角色和权限
+        // **************************************此处有问题*************************************
         SimpleAuthorizationInfo simpleAuthorizationInfo= new SimpleAuthorizationInfo();
-        for(Role role :user.getRoles()){
-            //添加角色
-            simpleAuthorizationInfo.addRole(role.getRoleName());
-            //添加权限
-            for(Permissions permissions : role.getPermissions()){
-                simpleAuthorizationInfo.addStringPermission(permissions.getPermissionName());
-            }
-        }
+//        for(JSONObject  obj : permissions1.get("permission")){
+//            //添加角色
+//            simpleAuthorizationInfo.addRole(role.getRoleName());
+//            //添加权限
+//            System.out.println("*******用户所有权限*******");
+//            for(Permissions p : role.getPermissions()){
+//                System.out.println(p.getPermissionCode());
+//                simpleAuthorizationInfo.addStringPermission(p.getPermissionCode());
+//            }
+//        }
+
+
         return simpleAuthorizationInfo;
     }
 
