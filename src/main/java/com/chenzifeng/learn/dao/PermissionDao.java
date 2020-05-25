@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.chenzifeng.learn.bean.Permissions;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface PermissionDao {
 
@@ -22,5 +24,16 @@ public interface PermissionDao {
      * @return 返回Permission对象
      */
     Permissions getPermissionByCode(JSONObject jsonObject);
+
+    List<Integer> getIdsByRole(JSONObject jsonObject);
+
+//    List<String> getUserPermissions(JSONObject jsonObject);
+
+    List<String> getPermissionCodeById(List<Integer> list);
+
+
+
+
+
 
 }

@@ -7,7 +7,9 @@ import com.chenzifeng.learn.bean.Role;
 import com.chenzifeng.learn.bean.User;
 import com.chenzifeng.learn.dao.UserDao;
 import com.chenzifeng.learn.service.LoginService;
+import com.chenzifeng.learn.service.PermissionService;
 import com.chenzifeng.learn.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -15,8 +17,16 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -29,6 +39,10 @@ public class CustomRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PermissionService permissionService;
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomRealm.class);
     /**
      * 授权
      * @param principalCollection
@@ -36,30 +50,33 @@ public class CustomRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        //获取登录用户名
-        String username = (String) principalCollection.getPrimaryPrincipal();
+
+        Session session = SecurityUtils.getSubject().getSession();
+        logger.info("realm中doGetAuthorizationInfo得session=======:"+session.getId());
+        //获取登录用户信息
+        // 传进来的参数principalCollection是一个登录用户Object的集合，我们用getPrimaryPrincipal()方法获取当前登录者的对象，
+        // 但由于是个Object类，所以我们将它强转为User，或者是本来的传递参数principalCollection中就已经封装了一个上转型为Object的User对象
+        User user =(User) principalCollection.getPrimaryPrincipal();
+
         //我们在登录的时候把用户信息存session，session里面包含username，role，或者不需要role直接存permission
         // session里面不存密码，这样我们在这里从session里面直接拿这些信息即可
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("username",username);
-        //根据用户名去数据库查询用户信息
-        JSONObject permissions1  = userService.getUserPermissions(jsonObject);
 
+        jsonObject.put("username",user.getUsername());
+        jsonObject.put("userId",user.getId());
+        //根据用户名去数据库查询用户信息
+        JSONObject permissions1  = permissionService.getUserPermissions(jsonObject);
 
         //添加角色和权限
         // **************************************此处有问题*************************************
         SimpleAuthorizationInfo simpleAuthorizationInfo= new SimpleAuthorizationInfo();
-//        for(JSONObject  obj : permissions1.get("permission")){
-//            //添加角色
-//            simpleAuthorizationInfo.addRole(role.getRoleName());
-//            //添加权限
-//            System.out.println("*******用户所有权限*******");
-//            for(Permissions p : role.getPermissions()){
-//                System.out.println(p.getPermissionCode());
-//                simpleAuthorizationInfo.addStringPermission(p.getPermissionCode());
-//            }
-//        }
+
+        List<String> permissionCode = (List<String>) permissions1.get("permissionCode");
+        for(String p :permissionCode){
+            simpleAuthorizationInfo.addStringPermission(p);
+            System.out.println(p);
+        }
 
 
         return simpleAuthorizationInfo;

@@ -83,10 +83,10 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "the user information : \n"
-                + "id :" + id + "\n"
-                + "username:" + username + "\n"
-                + "password:" + password + "\n"
-                + "realName:" + realName;
+        return
+                 "{ id :" + id + ","
+                + "username:" + username + ","
+                + "password:" + password
+                + "}";
     }
 }

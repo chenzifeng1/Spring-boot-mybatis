@@ -72,5 +72,16 @@ idea中打插件的方法 File -> Settings -> Plugins 选下方的Browser Reposi
     1. 集合类参数是唯一参数：那么Collection的value就是list或是array,list对list，数组对array
     2. 集合类参数不是唯一参数，但是集合类参数被注解@Param("paramName")标注，则collection的value就是注解内的"paramName"
 
+查询中，foreach的用法参考
+```xml
+    <select id="getPermissionCodeById" resultType="java.lang.String">
+      SELECT permission_code
+      FROM   permission
+      WHERE id IN
+      <foreach collection="list" item="item" open="(" separator="," close=")">
+          #{item}
+      </foreach>
+    </select>
+```
 ### JavaBean实现Serializable接口
 javabean实现该接口的目的是为了持久化，javabean需要写一个空构造方法。

@@ -118,7 +118,7 @@ public interface RoleDao {
      * @param requestJson
      * @return
      */
-    List<JSONObject> getIdsByUser(JSONObject requestJson);
+    List<Integer> getIdsByUser(JSONObject requestJson);
 //
 //    /**
 //     * 导出查询

@@ -54,10 +54,9 @@
         where USERNAME = #{username}
     </select>
 
-    <!--返回一个List<String>-->
-    <select id="getUserPermissions" resultSets="java.lang.String">
-        SELECT permission
-    </select>
+
+
+
 
     <update id="updateUser">
 

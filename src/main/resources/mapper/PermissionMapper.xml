@@ -43,6 +43,27 @@
         WHERE permission_code = #{permissionCode}
     </select>
 
+    <!--<select id="getUserPermissions" resultType="java.lang.String">-->
+        <!--SELECT p.permission_code-->
+        <!--FROM permission-->
+        <!--WHERE-->
+    <!--</select>-->
+
+
+    <select id="getIdsByRole" resultType="java.lang.Integer">
+        SELECT permission_id
+        FROM role_permission
+        WHERE role_id = #{roleId}
+    </select>
+
+    <select id="getPermissionCodeById" resultType="java.lang.String">
+      SELECT permission_code
+      FROM   permission
+      WHERE id IN
+      <foreach collection="list" item="item" open="(" separator="," close=")">
+          #{item}
+      </foreach>
+    </select>
 
 
 </mapper>

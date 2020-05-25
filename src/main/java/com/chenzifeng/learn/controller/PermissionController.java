@@ -30,13 +30,8 @@ public class PermissionController {
 
 
     @GetMapping("/test")
-    public JSONObject test(){
-        List<Integer> t= new ArrayList<>();
-        t.add(1);
-        t.add(4);
-        t.add(5);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("permission",t);
-        return jsonObject;
+    public JSONObject test(@RequestBody JSONObject jsonObject){
+
+        return permissionService.getUserPermissions(jsonObject);
     }
 }

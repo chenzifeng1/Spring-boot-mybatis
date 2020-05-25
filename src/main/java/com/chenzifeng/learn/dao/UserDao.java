@@ -54,6 +54,6 @@ public interface UserDao {
      */
     List<User> listUser(JSONObject jsonObject);
 
-    List<String> getUserPermissions(JSONObject jsonObject);
+
 
 }

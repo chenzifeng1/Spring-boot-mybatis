@@ -160,6 +160,17 @@ public class CustomRealm extends AuthorizingRealm {
 
 ```
 
+着重讲一个方法，虽然这个方法很简单，但是涉及到后续认证的问题，方法声明如下：  
+``` public SimpleAuthenticationInfo(Object principal, Object credentials, String realmName)```  
+第一个参数是principal是一个Object类，这个参数在我们的代码中传递的是User，一个带有当前登录用户信息的User类。
+principal是shiro承载登录用户信息的一个类，由用户自己定义，然后参数上转型为object也符合接口逻辑（参数向小，返回向大）。
+通过传入这个principal，授权信息会记住当前登录用户的信息。 
+credentials传入的是用户密码，这个参数的具体含义我需要在查找一下资料。
+realmName这个参数的含义是记录当前验证realm的名称，自己定义，一般是用户名。
+
+
+
+
 定义一个realm 只要继承一个抽象类AuthorizingRealm，重写里面的两个重要的抽象方法即可。
 
 **doGetAuthenticationInfo()** 进行用户认证的方法，主要过程如下：
@@ -176,6 +187,15 @@ public class CustomRealm extends AuthorizingRealm {
 由于一个User可能包含多个角色Role，而一个角色可能包含多个权限Permission，故User与Role之间是一对多，Role与Permission之间也是一对多的关系。
 但是由于MySQL不能一个字段存一个集合的数据，故只能将其分表存储，User与Role之间用一张关系表来记录。同理，Role与Permission之间用一个关系表来记录。
 ![shiro数据库设计](../../../../../../img/shiro数据库设计.PNG) 
+
+当用户完成登录之后，用户登录信息被封装到Principal中，我们在定义realm中有个重要的关于授权的方法
+```protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection)```
+这个方法的参数中就包括了principal，我们可以使用principalCollection的getPrimaryPrincipal方法来获取我们用户信息，就是之前在认证方法
+```SimpleAuthenticationInfo```中传入的user,可以将其强转为user。
+
+之后就是根据这个user中的信息去数据库或缓存中找到对应的角色和权限，然后将这些信息add进授权信息中，这样每次访问接口时。
+如果接口有```@RequiresPermissions("权限名")```注解，那么shiro就会比较授权信息中有无注解中的权限，如果有则开放访问。
+
 
 
 
