@@ -37,7 +37,7 @@ public class ShiroConfig {
 
         //authc:所有url都必须经过认证才能访问：anon：所有url可以进行匿名访问，，先配置anon在配置authc
         filterChainMap.put("/login","anon");
-//        filterChainMap.put("/**","anon");
+         filterChainMap.put("/services/**","anon");
         filterChainMap.put("/**","authc");
 
         //设置拦截请求后跳转的URL
