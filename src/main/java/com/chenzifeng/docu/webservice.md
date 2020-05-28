@@ -9,6 +9,12 @@
 4. targetNamespace：指定你想要的名称空间，默认是使用接口实现类的包名的反缀
 5.  6、wsdlLocation：指定用于定义 Web Service 的 WSDL 文档的 Web 地址。Web 地址可以是相对路径或绝对路径。
 
+wsdl页面中 portType标签的name 是发布的服务的名字  
+里面的operation的name是服务提供的方法名。  
+
+## 复杂对象
+webservice传递对象的时候，如果传递的类的属性与xml中的属性进行了绑定，我们可以在wsdl中查看类的属性和xml元素的映射时，传递对象时就不需要序列化。  
+如果传递对象流时，没有绑定xml元素，这时候对象需要进行序列化。
 
 ## Apache CXF核心架构
 
