@@ -1,8 +1,11 @@
-package com.chenzifeng.learn.webService;
+package com.chenzifeng.learn.service.impl;
 
+import com.chenzifeng.learn.bean.User;
+import com.chenzifeng.learn.service.UserService;
+import com.chenzifeng.learn.service.UserTestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.jws.WebParam;
 import javax.jws.WebService;
 
 
@@ -15,11 +18,21 @@ import javax.jws.WebService;
 
 @WebService(serviceName = "UserTestService",
         targetNamespace = "http://webService.learn.chenzifeng.com",
-        endpointInterface = "com.chenzifeng.learn.webService.UserTestService")
+        endpointInterface = "com.chenzifeng.learn.service.UserTestService")
 @Component
 public class UserTestServiceImpl implements UserTestService {
+
+    @Autowired
+    private UserService userService;
+
     @Override
     public String userInfo(String username) {
         return "the user name is" + username;
+    }
+
+    @Override
+    public User getUser(User user) {
+        System.out.println(user.toString());
+        return null;
     }
 }

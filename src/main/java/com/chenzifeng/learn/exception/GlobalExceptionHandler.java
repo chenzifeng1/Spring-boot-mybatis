@@ -55,6 +55,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(UnauthorizedException.class)
     public JSONObject unauthorizedExceptionHandler(UnauthorizedException ue){
+        logger.error(ue.getMessage());
         return new JSONMessage().JSONResult(ErrorEnum.E_502);
     }
 

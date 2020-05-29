@@ -6,13 +6,16 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @SpringBootTest
 public class TestUseCase {
     @Autowired
     UserService userService;
 
     @Test
-    void insetTest() {
+    public void insetTest() {
 
         String username = "test";
         String password = "psw";
@@ -40,5 +43,11 @@ public class TestUseCase {
             jsonObject.put("id",i);
             System.out.println(userService.getOne(jsonObject));
         }
+    }
+
+    @Test
+    public void DateTest(){
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println(sf.format(new Date()).toString());
     }
 }

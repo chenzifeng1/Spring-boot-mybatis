@@ -37,7 +37,7 @@ shiro是Apache下的一个开源项目，属于轻量级安全框架，相对spr
 之前使用的是 shiro-spring-boot-web-starter,但是出现了一个bean无法加载的错误，暂时没找到解决的方法。
 所以换了依赖包，以后有时间会尝试解决一下那个坑。
 项目树如下：  
-![shiro项目树](../../../../../../img/shiro项目树.PNG) 
+![shiro项目树](../img/shiro项目树.PNG) 
 介绍流程采取模块分布：我们首先要写一个shiro的配置文件shiroConfig.java。
 我们在里面要配置webFilter来拦截访问我们服务器的所有请求，当然可以设置url的访问权限
 ```
@@ -186,7 +186,7 @@ realmName这个参数的含义是记录当前验证realm的名称，自己定义
 
 由于一个User可能包含多个角色Role，而一个角色可能包含多个权限Permission，故User与Role之间是一对多，Role与Permission之间也是一对多的关系。
 但是由于MySQL不能一个字段存一个集合的数据，故只能将其分表存储，User与Role之间用一张关系表来记录。同理，Role与Permission之间用一个关系表来记录。
-![shiro数据库设计](../../../../../../img/shiro数据库设计.PNG) 
+![shiro数据库设计](./img/shiro数据库设计.PNG) 
 
 当用户完成登录之后，用户登录信息被封装到Principal中，我们在定义realm中有个重要的关于授权的方法
 ```protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection)```
@@ -195,6 +195,13 @@ realmName这个参数的含义是记录当前验证realm的名称，自己定义
 
 之后就是根据这个user中的信息去数据库或缓存中找到对应的角色和权限，然后将这些信息add进授权信息中，这样每次访问接口时。
 如果接口有```@RequiresPermissions("权限名")```注解，那么shiro就会比较授权信息中有无注解中的权限，如果有则开放访问。
+
+
+
+
+## shiro设置Session
+我们通常需要在SecurityManager里面设置SessionManager，一般用的SessionManager是DefaultWebSessionManager，下面是该类的类图
+![shiro-DefaultSessionManager](./img/shiro-SessionManager.PNG)
 
 
 

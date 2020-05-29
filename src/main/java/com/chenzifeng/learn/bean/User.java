@@ -1,10 +1,18 @@
 package com.chenzifeng.learn.bean;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.Set;
 
-
+@XmlRootElement(name="user")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder= {"id","username","password"})
 public class User implements Serializable {
+
+    private static final long serialVersionUID = 1336312725016506951L;
 
     public User() {
     }

@@ -1,8 +1,11 @@
 package com.chenzifeng.learn.bean;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class Role {
+public class Role  implements Serializable{
+
+    private static final long serialVersionUID = -4566896702061159547L;
 
     private String id;
     private String roleName;

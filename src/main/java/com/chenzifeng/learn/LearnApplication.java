@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 @MapperScan("com.chenzifeng.learn.dao")
 @SpringBootApplication
 @EnableAutoConfiguration
+@ComponentScan({"com.chenzifeng.learn.service.impl"})
 public class LearnApplication {
 
 	public static void main(String[] args) {

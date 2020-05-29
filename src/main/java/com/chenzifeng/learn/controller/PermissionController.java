@@ -31,7 +31,6 @@ public class PermissionController {
 
     @GetMapping("/test")
     public JSONObject test(@RequestBody JSONObject jsonObject){
-
         return permissionService.getUserPermissions(jsonObject);
     }
 }

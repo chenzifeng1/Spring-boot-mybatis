@@ -25,6 +25,10 @@ dao层到mapper文件的映射问题基本解决，做了insert和select的操�
     
 注：模块间的解耦可以使用设计模式，后端接口的优化可以参考这篇文章[spring-boot后端接口优化](https://www.jianshu.com/p/b5b8613769db
 )
+
+2020年5月27日09:51:01
+#### 目标：今天的目标，完成shiro关于缓存和session设置的学习，以及webservice的视频学习
+
     
     
     
