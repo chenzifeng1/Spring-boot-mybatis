@@ -55,5 +55,6 @@ public interface UserDao {
     List<User> listUser(JSONObject jsonObject);
 
 
+    List<User> selecetPage(JSONObject jsonObject);
 
 }

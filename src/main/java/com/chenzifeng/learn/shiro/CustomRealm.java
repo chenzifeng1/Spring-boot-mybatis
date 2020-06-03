@@ -57,12 +57,12 @@ public class CustomRealm extends AuthorizingRealm {
 
 
         logger.info("realm中doGetAuthorizationInfo得session=======:" + session.getId());
-        //获取登录用户信息
+        // 获取登录用户信息
         // 传进来的参数principalCollection是一个登录用户Object的集合，我们用getPrimaryPrincipal()方法获取当前登录者的对象，
         // 但由于是个Object类，所以我们将它强转为User，或者是本来的传递参数principalCollection中就已经封装了一个上转型为Object的User对象
         User user = (User) principalCollection.getPrimaryPrincipal();
 
-        //我们在登录的时候把用户信息存session，session里面包含username，role，或者不需要role直接存permission
+        // 我们在登录的时候把用户信息存session，session里面包含username，role，或者不需要role直接存permission
         // session里面不存密码，这样我们在这里从session里面直接拿这些信息即可
 
         JSONObject jsonObject = new JSONObject();
@@ -73,21 +73,23 @@ public class CustomRealm extends AuthorizingRealm {
         session.setAttribute("username", user.getUsername());
         session.setAttribute("userId", user.getId());
 
-        //根据用户名去数据库查询用户信息
+        // 根据用户名去数据库查询用户信息
         JSONObject permissions1 = permissionService.getUserPermissions(jsonObject);
-        //添加角色和权限
+        // 添加角色和权限
         // **************************************此处有问题*************************************
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
         List<String> permissionCode = (List<String>) permissions1.get("permissionCode");
-        if (permissionCode.size() > 0){
+        if (permissionCode.size() > 0) {
             for (String p : permissionCode) {
                 simpleAuthorizationInfo.addStringPermission(p);
                 logger.info(p);
             }
             session.setAttribute("permissionCode", permissionCode);
-        }else
-            simpleAuthorizationInfo.addStringPermission("visitor:visit"); //如果登录用户没有任何权限，则默认为游客权限，只能访问部分接口。
+        } else {
+            // 如果登录用户没有任何权限，则默认为游客权限，只能访问部分接口。
+            simpleAuthorizationInfo.addStringPermission("visitor:visit");
+        }
 
         return simpleAuthorizationInfo;
     }

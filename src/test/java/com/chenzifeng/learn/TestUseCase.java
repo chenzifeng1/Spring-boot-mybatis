@@ -1,5 +1,6 @@
 package com.chenzifeng.learn;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.chenzifeng.learn.service.UserService;
 import org.junit.Test;
@@ -8,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 @SpringBootTest
 public class TestUseCase {
@@ -49,5 +51,22 @@ public class TestUseCase {
     public void DateTest(){
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println(sf.format(new Date()).toString());
+    }
+
+    @Test
+    public void JSONTest(){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("tankCode","1,2,3,4");
+        jsonObject.put("stationCode","19561464");
+        System.out.println(jsonObject.toString());
+//        Map<String,String> tankMap = JSON.parseObject(jsonObject.toJSONString(),Map.class);
+//        tankMap.put("tankCode","1");
+//        jsonObject = JSONObject.parseObject(JSON.toJSONString(tankMap));
+        jsonObject.put("stationCode","1");
+        System.out.println(jsonObject.toString());
+
+        System.out.println(jsonObject.getInteger("asd"));
+        jsonObject.put("date",new Date());
+        System.out.println(jsonObject.getDate("date"));
     }
 }

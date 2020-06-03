@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.Set;
 
-@XmlRootElement(name="user")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder= {"id","username","password"})
+//@XmlRootElement(name="user")
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlType(propOrder= {"id","username","password"})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1336312725016506951L;
@@ -30,7 +30,10 @@ public class User implements Serializable {
      */
     private byte status;
 
-    private String salt; //加密所需的密码盐
+    /**
+     *  加密所需的密码盐
+     */
+    private String salt;
 
     /**
      * 一个用户可能具有多个角色：每个角色有不同的权限
